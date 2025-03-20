@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(rosdemo_v3)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 # 添加编译选项
-add_compile_options(-std=c++14)
+add_compile_options(-std=c++17)
 
 ## 添加所需的依赖项
 find_package(catkin REQUIRED COMPONENTS
