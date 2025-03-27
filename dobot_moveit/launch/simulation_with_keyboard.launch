@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+	<include file="$(find me6_moveit)/launch/move_group.launch"/>
+	<include file="$(find dobot_gazebo)/launch/gazebo.launch"/>
+	<node pkg="dobot_moveit" type="subscribe_magician_move.py" name="simulation_node" output="screen"/>
+</launch>
