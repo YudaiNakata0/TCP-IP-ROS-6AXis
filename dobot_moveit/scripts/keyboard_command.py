@@ -10,7 +10,7 @@ from geometry_msgs.msg import Vector3, Pose
 import rosgraph
 from scipy.spatial.transform import Rotation as Rot
 import numpy as np
-from mymodule import call_service
+from mymodule import call_service, Timer
 
 
 msg = """
@@ -57,7 +57,13 @@ def eulertoquat(euler_angles):
         msg.orientation.z = qua[2]
         msg.orientation.w = qua[3]
         return msg.orientation
-        
+
+def publish_by_timer(timer, publisher, msg):
+        time = timer.measure_time()
+        if time > 0.3:
+                publisher.publish(msg)
+                timer.update_time()
+
 if __name__=="__main__":
         settings = termios.tcgetattr(sys.stdin)
         rospy.init_node("keyboard_command")
@@ -88,6 +94,8 @@ if __name__=="__main__":
 
         motion_start_pub = rospy.Publisher('task_start', Empty, queue_size=1)
 
+        timer = Timer.Timer()
+
         try:
                 while(True):
                         nav_msg = Pose()
@@ -106,57 +114,57 @@ if __name__=="__main__":
 
                         if key == 'w':
                                 nav_msg.position.x = x_move
-                                nav_pub.publish(nav_msg)
+                                publish_by_timer(timer, nav_pub, nav_msg)
                                 msg = "send +x command"
                         if key == 's':
                                 nav_msg.position.x = -x_move
-                                nav_pub.publish(nav_msg)
+                                publish_by_timer(timer, nav_pub, nav_msg)
                                 msg = "send -x command"
                         if key == 'e':
                                 nav_msg.position.y = y_move
-                                nav_pub.publish(nav_msg)
+                                publish_by_timer(timer, nav_pub, nav_msg)
                                 msg = "send +y command"
                         if key == 'd':
                                 nav_msg.position.y = -y_move
-                                nav_pub.publish(nav_msg)
+                                publish_by_timer(timer, nav_pub, nav_msg)
                                 msg = "send -y command"
                         if key == 'r':
                                 nav_msg.position.z = z_move
-                                nav_pub.publish(nav_msg)
+                                publish_by_timer(timer, nav_pub, nav_msg)
                                 msg = "send +z command"
                         if key == 'f':
                                 nav_msg.position.z = -z_move
-                                nav_pub.publish(nav_msg)
+                                publish_by_timer(timer, nav_pub, nav_msg)
                                 msg = "send -z command"
                         if key == 'u':
                                 euler_angles[0] = roll_rot
                                 nav_msg.orientation = eulertoquat(euler_angles)
-                                nav_pub.publish(nav_msg)
+                                publish_by_timer(timer, nav_pub, nav_msg)
                                 msg = "send +roll command" 
                         if key == 'j':
                                 euler_angles[0] = -roll_rot
                                 nav_msg.orientation = eulertoquat(euler_angles)
-                                nav_pub.publish(nav_msg)
+                                publish_by_timer(timer, nav_pub, nav_msg)
                                 msg = "send -roll command"
                         if key == 'i':
                                 euler_angles[1] = pitch_rot
                                 nav_msg.orientation = eulertoquat(euler_angles)
-                                nav_pub.publish(nav_msg)
+                                publish_by_timer(timer, nav_pub, nav_msg)
                                 msg = "send +pitch command"
                         if key == 'k':
                                 euler_angles[1] = -pitch_rot
                                 nav_msg.orientation = eulertoquat(euler_angles)
-                                nav_pub.publish(nav_msg)
+                                publish_by_timer(timer, nav_pub, nav_msg)
                                 msg = "send -pitch command"
                         if key == 'o':
                                 euler_angles[2] = yaw_rot
                                 nav_msg.orientation = eulertoquat(euler_angles)
-                                nav_pub.publish(nav_msg)
+                                publish_by_timer(timer, nav_pub, nav_msg)
                                 msg = "send +yaw command"
                         if key == 'l':
                                 euler_angles[2] = -yaw_rot
                                 nav_msg.orientation = eulertoquat(euler_angles)
-                                nav_pub.publish(nav_msg)
+                                publish_by_timer(timer, nav_pub, nav_msg)
                                 msg = "send -yaw command"
                         if key == 'b':
                                 call_service.call_ClearError()
