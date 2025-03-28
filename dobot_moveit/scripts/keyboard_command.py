@@ -77,11 +77,6 @@ if __name__=="__main__":
                         robot_ns = teleop_topics[0].split('/teleop')[0]
 
         ns = robot_ns + "/teleop_command"
-        # land_pub = rospy.Publisher(ns + '/land', Empty, queue_size=1)
-        # halt_pub = rospy.Publisher(ns + '/halt', Empty, queue_size=1)
-        # start_pub = rospy.Publisher(ns + '/start', Empty, queue_size=1)
-        # takeoff_pub = rospy.Publisher(ns + '/takeoff', Empty, queue_size=1)
-        # force_landing_pub = rospy.Publisher(ns + '/force_landing', Empty, queue_size=1)
         nav_pub = rospy.Publisher(robot_ns + '/magician_move', Pose, queue_size=1)
 
         x_move = 0.02 # [m]
@@ -104,31 +99,11 @@ if __name__=="__main__":
                         nav_msg.orientation.z = 0.0
                         nav_msg.orientation.w = 1.0
                         euler_angles = [0.0, 0.0, 0.0]
-                        # nav_msg.control_frame = FlightNav.WORLD_FRAME
-                        # nav_msg.target = FlightNav.COG
 
                         key = getKey()
 
                         msg = ""
 
-                        # if key == 'l':
-                        #         land_pub.publish(Empty())
-                        #         msg = "send land command"
-                        # if key == 'r':
-                        #         start_pub.publish(Empty())
-                        #         msg = "send motor-arming command"
-                        # if key == 'h':
-                        #         halt_pub.publish(Empty())
-                        #         msg = "send motor-disarming (halt) command"
-                        # if key == 'f':
-                        #         force_landing_pub.publish(Empty())
-                        #         msg = "send force landing command"
-                        # if key == 't':
-                        #         takeoff_pub.publish(Empty())
-                        #         msg = "send takeoff command"
-                        # if key == 'x':
-                        #         motion_start_pub.publish()
-                        #         msg = "send task-start command"
                         if key == 'w':
                                 nav_msg.position.x = x_move
                                 nav_pub.publish(nav_msg)
@@ -198,16 +173,6 @@ if __name__=="__main__":
                                 stop_pub.publish(stop_msg)
                                 msg = "send stop command"
 
-                        # if key == '[':
-                        #         nav_msg.pos_z_nav_mode = FlightNav.VEL_MODE
-                        #         nav_msg.target_vel_z = z_vel
-                        #         nav_pub.publish(nav_msg)
-                        #         msg = "send +z vel command"
-                        # if key == ']':
-                        #         nav_msg.pos_z_nav_mode = FlightNav.VEL_MODE
-                        #         nav_msg.target_vel_z = -z_vel
-                        #         nav_pub.publish(nav_msg)
-                        #         msg = "send -z vel command"
                         if key == '\x03':
                                 break
 
