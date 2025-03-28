@@ -2,5 +2,5 @@
 <launch>
 	<include file="$(find me6_moveit)/launch/move_group.launch"/>
 	<include file="$(find dobot_gazebo)/launch/gazebo.launch"/>
-	<node pkg="dobot_moveit" type="subscriber.py" name="simulation_node" output="screen"/>
+	<node pkg="dobot_moveit" type="subscriber_with_threading.py" name="simulation_node" output="screen"/>
 </launch>
