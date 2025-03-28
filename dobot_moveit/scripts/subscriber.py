@@ -21,7 +21,7 @@ def callback(msg):
     # クライアントの生成
     client = actionlib.SimpleActionClient("/me6_robot/joint_controller/follow_joint_trajectory", FollowJointTrajectoryAction)
     client.wait_for_server()
-    client.cancel_goal() # 前のゴールのキャンセル
+    client.cancel_all_goals() # 前のゴールのキャンセル
     rospy.loginfo("goal cancelled")
         
     current_pose = move_group.get_current_pose().pose # 現在位置取得
