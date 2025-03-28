@@ -71,7 +71,7 @@ def planning(msg):
         point.positions = goal_joints
         point.time_from_start = rospy.Duration(0.5)
         pub_msg.trajectory.points.append(point)
-        rospy.loginfo(pub_msg.trajectory.points[0].positions)
+        rospy.loginfo("goal :%s", pub_msg.trajectory.points[0].positions)
 
         client.send_goal(pub_msg, done_cb=goal_callback) # ゴールを送信
         
