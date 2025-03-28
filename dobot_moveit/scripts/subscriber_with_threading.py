@@ -44,8 +44,8 @@ def planning(msg):
     current_pose = move_group.get_current_pose().pose # 現在位置取得
     goal_pose = op.add_pose(current_pose, msg) # 現在位置と移動指令から目標位置算出
     move_group.set_pose_target(goal_pose) # 目標位置設定
-    # move_group.set_goal_orientation_tolerance(0.05) # エンドエフェクタ姿勢の許容誤差
-    joint_constraint = sc.make_joint_constraint(move_group, 3.142) # 関節角の制限を設定
+    move_group.set_goal_orientation_tolerance(0.05) # エンドエフェクタ姿勢の許容誤差
+    joint_constraint = sc.make_joint_constraint(move_group, 1.0) # 関節角の制限を設定
     move_group.set_path_constraints(joint_constraint) # 関節角の制限を適用
     rospy.loginfo("joint_constraints applied: %s", joint_constraint)
     move_group.set_planning_time(0.5) # タイムアウトの設定
