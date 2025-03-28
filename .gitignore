@@ -20,4 +20,4 @@ rad.json
 *.flf
 #Test results file
 TestResults.xml
-dobot_moveit/scripts/module/
+dobot_moveit/scripts/mymodule/
